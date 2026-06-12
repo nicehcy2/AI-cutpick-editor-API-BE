@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  jobs         EditJob[]
+}
+
+model EditJob {
+  id        String          @id @default(cuid())
+  userId    String
+  user      User            @relation(fields: [userId], references: [id])
+  status    JobStatus       @default(processing)
+  progress  Int             @default(0)
+  resultUrl String?
+  errorCode String?
+  subject   EditSubject
+  duration  String          // "auto" | "0-30" | "30-60" | "60-180" | "180-300" | "300+"
+  style     EditStyle
+  createdAt DateTime        @default(now())
+  videos    UploadedVideo[]
+
+  @@index([userId])
+}
+
+model UploadedVideo {
+  id           String   @id @default(cuid())
+  jobId        String
+  job          EditJob  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  name         String
+  size         Int
+  duration     Int
+  thumbnailUrl String?
+  storagePath  String
+}
+
+enum JobStatus {
+  processing
+  completed
+  failed
+}
+
+enum EditSubject {
+  person
+  food
+  product
+  animal
+  landscape
+  object
+}
+
+enum EditStyle {
+  voice
+  voice_scene
+}

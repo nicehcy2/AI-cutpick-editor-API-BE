@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# uploads
+uploads/
+
+# prisma
+*.db
+*.db-journal
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# ide
+.vscode/
+.idea/
+
+# misc
+*.js.map
+tsconfig.tsbuildinfo

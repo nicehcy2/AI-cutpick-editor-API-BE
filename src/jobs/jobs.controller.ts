@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { CreateJobDto } from './dto/create-job.dto';
 import { JobsService } from './jobs.service';
 
@@ -29,7 +29,7 @@ export class JobsController {
     return this.jobsService.findOne(id);
   }
 
-  // 아래 세 엔드포인트는 내부 워커용
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/progress')
   updateProgress(
     @Param('id') id: string,
@@ -38,6 +38,7 @@ export class JobsController {
     return this.jobsService.updateProgress(id, progress);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/complete')
   complete(
     @Param('id') id: string,
@@ -46,6 +47,7 @@ export class JobsController {
     return this.jobsService.complete(id, resultUrl);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/fail')
   fail(
     @Param('id') id: string,

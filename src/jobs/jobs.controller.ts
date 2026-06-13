@@ -29,7 +29,6 @@ export class JobsController {
     return this.jobsService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id/progress')
   updateProgress(
     @Param('id') id: string,
@@ -38,7 +37,6 @@ export class JobsController {
     return this.jobsService.updateProgress(id, progress);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id/complete')
   complete(
     @Param('id') id: string,
@@ -47,7 +45,6 @@ export class JobsController {
     return this.jobsService.complete(id, resultUrl);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Patch(':id/fail')
   fail(
     @Param('id') id: string,

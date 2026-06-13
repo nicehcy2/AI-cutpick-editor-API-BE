@@ -2,21 +2,18 @@ import {
   Controller,
   Post,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { randomUUID } from 'crypto';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { VideosService } from './videos.service';
 
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post('upload')
   @UseInterceptors(
     FilesInterceptor('files', 10, {
